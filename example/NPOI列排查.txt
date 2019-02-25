@@ -1,0 +1,51 @@
+Dictionary<string,int> dic = new Dictionary<string,int>();
+            for (int i = 0; i < colsCount; i++)
+            {
+                string test = sheet.GetRow(0).GetCell(i).ToString();
+                switch (test)
+                {
+                    case "学号":
+                        dic.Add("学号", i);
+                        break;
+                    case "语文":
+                        dic.Add("语文", i);
+                        break;
+                    case "数学":
+                        dic.Add("数学", i);
+                        break;
+                    case "英语":
+                        dic.Add("英语", i);
+                        break;
+                    case "物理":
+                        dic.Add("物理", i);
+                        break;
+                    case "化学":
+                        dic.Add("化学", i);
+                        break;
+                    case "生物":
+                        dic.Add("生物", i);
+                        break;
+                    case "历史":
+                        dic.Add("历史", i);
+                        break;
+                    case "地理":
+                        dic.Add("地理", i);
+                        break;
+                    case "政治":
+                        dic.Add("政治", i);
+                        break;      
+                }
+}
+
+
+
+===============
+string chinese = Convert.ToString(sheet.GetRow(i).GetCell(dic["语文"]));
+                        string math = Convert.ToString(sheet.GetRow(i).GetCell(dic["数学"]));
+                        string english = Convert.ToString(sheet.GetRow(i).GetCell(dic["英语"]));
+                        string physical = Convert.ToString(sheet.GetRow(i).GetCell(dic["物理"]));
+                        string chemical = Convert.ToString(sheet.GetRow(i).GetCell(dic["化学"]));
+                        string biological = Convert.ToString(sheet.GetRow(i).GetCell(dic["生物"]));
+                        string history = Convert.ToString(sheet.GetRow(i).GetCell(dic["历史"]));
+                        string geography = Convert.ToString(sheet.GetRow(i).GetCell(dic["地理"]));
+                        string politics = Convert.ToString(sheet.GetRow(i).GetCell(dic["政治"]));

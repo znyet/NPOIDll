@@ -1,0 +1,66 @@
+HttpFileCollection files = context.Request.Files;
+            HttpPostedFile file = files["file"];
+
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook(file.InputStream);  //获取excel流转化成HSSFWorkbook
+
+            HSSFSheet sheet = hssfworkbook.GetSheetAt(0) as HSSFSheet;  //获取Excel第一张表转化成HSSFSheet
+
+            //int rowsCount = sheet.PhysicalNumberOfRows;  //获取这个sheet共几行
+            //int colsCount = sheet.GetRow(0).PhysicalNumberOfCells;  //获取共几列
+
+
+            System.Collections.IEnumerator rows = sheet.GetRowEnumerator(); //获取指针
+
+            while (rows.MoveNext())  //开始遍历行
+            {
+                HSSFRow row = (HSSFRow)rows.Current;
+
+                for (int i = 0; i < row.LastCellNum; i++)
+                {
+                    HSSFCell cell = row.GetCell(i) as HSSFCell;
+                    //TODO::set cell value to the cell of DataTables
+                }
+            }
+
+         sheet.GetRow(rowIndex).GetCell(colIndex)
+
+
+
+
+            string filepath=context.Server.MapPath("/excelModel/教师任职上传模板.xls");
+
+            using (FileStream file = new FileStream(filepath,FileMode.Open))
+            {
+
+                MemoryStream ms = new MemoryStream();
+                HSSFWorkbook hssfworkbook = new HSSFWorkbook(file);
+                HSSFSheet workSheet = hssfworkbook.GetSheet("Sheet1") as HSSFSheet;
+
+                if (dt.Rows.Count != 0) 
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        IRow row = workSheet.CreateRow(i+1);
+                        row.CreateCell(0).SetCellValue(dt.Rows[i][1].ToString());//班级
+                        row.CreateCell(1).SetCellValue(dt.Rows[i][2].ToString());//语文
+                        row.CreateCell(2).SetCellValue(dt.Rows[i][3].ToString());//数学
+                        row.CreateCell(3).SetCellValue(dt.Rows[i][4].ToString());//英语
+                        row.CreateCell(4).SetCellValue(dt.Rows[i][5].ToString());//物理
+                        row.CreateCell(5).SetCellValue(dt.Rows[i][6].ToString());//化学
+                        row.CreateCell(6).SetCellValue(dt.Rows[i][7].ToString());//生物
+                        row.CreateCell(7).SetCellValue(dt.Rows[i][8].ToString());//历史
+                        row.CreateCell(8).SetCellValue(dt.Rows[i][9].ToString());//地理
+                        row.CreateCell(9).SetCellValue(dt.Rows[i][10].ToString());//政治
+                        row.CreateCell(10).SetCellValue(dt.Rows[i][11].ToString());//班主任
+                    }
+                }
+
+                hssfworkbook.Write(ms);
+                context.Response.ContentEncoding = Encoding.GetEncoding("GB2312");
+                string fileName = "教师任职上传模板";
+                context.Response.AppendHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileName, Encoding.UTF8) + ".xls");
+                context.Response.ContentType = "application/ms-excel";
+                context.Response.BinaryWrite(ms.ToArray());
+                ms.Flush();
+                ms.Position = 0;
+            }
