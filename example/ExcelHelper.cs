@@ -83,6 +83,7 @@ namespace MyWeb
                     dt.Rows.Add(dr);
                 }
             }
+            workbook.Close();
             return dt;
         }
 
@@ -130,6 +131,9 @@ namespace MyWeb
             MemoryStream ms = new MemoryStream();
             workBook.Write(ms);
             ms.WriteTo(HttpContext.Current.Response.OutputStream);
+            ms.Flush();
+            ms.Close();
+            workBook.Close();
             HttpContext.Current.Response.End();
         }
 
@@ -146,6 +150,9 @@ namespace MyWeb
             NPOIMemoryStream ms = new NPOIMemoryStream();
             workBook.Write(ms);
             ms.WriteTo(HttpContext.Current.Response.OutputStream);
+            ms.Flush();
+            ms.Close();
+            workBook.Close();
             HttpContext.Current.Response.End();
         }
 
