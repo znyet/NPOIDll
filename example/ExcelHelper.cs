@@ -11,7 +11,7 @@ using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using System.Web;
 
-namespace Common.Utils
+namespace MyWeb
 {
     public class ExcelHelper
     {
@@ -143,7 +143,7 @@ namespace Common.Utils
             HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
             HttpContext.Current.Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}.xlsx", filename));
             HttpContext.Current.Response.Clear();
-            MemoryStream ms = new MemoryStream();
+            NPOIMemoryStream ms = new NPOIMemoryStream();
             workBook.Write(ms);
             ms.WriteTo(HttpContext.Current.Response.OutputStream);
             HttpContext.Current.Response.End();
@@ -151,4 +151,32 @@ namespace Common.Utils
 
 
     }
+
+
+    public class NPOIMemoryStream : MemoryStream
+    {
+        /// <summary>
+        /// 获取流是否关闭
+        /// </summary>
+        public bool IsColse
+        {
+            get;
+            private set;
+        }
+
+        public NPOIMemoryStream(bool colse = false)
+        {
+            IsColse = colse;
+        }
+
+        public override void Close()
+        {
+            if (IsColse)
+            {
+                base.Close();
+            }
+
+        }
+    }
+
 }
